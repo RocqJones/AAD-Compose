@@ -3,6 +3,9 @@ package com.rocqjones.listapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -118,11 +121,27 @@ fun Greetings(
 
 @Composable
 fun Greeting(name: String) {
-    // Btn state management with remember.
+    /**
+     * Btn state management with remember.
+     * - If you expand item number 1, you scroll away to number 20 and come back to 1, you'll notice that 1 is back to the original size.
+     * - You could save this data with rememberSaveable if it were a requirement
+     */
     val expanded = remember { mutableStateOf(false) }
 
-    // additional variable that depends on our btn state
-    val extraPadding = if (expanded.value) 48.dp else 0.dp
+    /**
+     * additional variable that depends on our btn state
+     * Animate collapsing.
+     * - Let's do something more fun like adding a spring-based animation
+     * - The spring spec does not take any time-related parameters. Instead it relies on physical
+     * properties (damping and stiffness) to make animations more natural.
+     */
+    val extraPadding by animateDpAsState(
+        if (expanded.value) 48.dp else 0.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+    )
 
     Surface(
         color = MaterialTheme.colorScheme.primary,
@@ -132,7 +151,7 @@ fun Greeting(name: String) {
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom = extraPadding)
+                    .padding(bottom = extraPadding.coerceAtLeast(0.dp)) // due to animation we're making sure that padding is never negative, otherwise it could crash the app.
             ) {
                 Text(text = "Hello")
                 Text(text = "$name.")
