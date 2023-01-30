@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun MyApp(modifier: Modifier = Modifier) {
+fun MyApp(modifier: Modifier = Modifier) {
     /**
      * This state should be hoisted
      * Using a by keyword instead of the =.
@@ -43,7 +43,6 @@ private fun MyApp(modifier: Modifier = Modifier) {
             }
         }
     }
-    Greetings()
 }
 
 @Composable
