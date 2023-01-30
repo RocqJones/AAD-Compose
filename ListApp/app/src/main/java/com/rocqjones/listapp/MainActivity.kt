@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,7 +34,16 @@ fun MyApp(modifier: Modifier = Modifier) {
      * - This is a property delegate that saves you from typing .value every time.
      * logic to show the different screens in MyApp, and hoist the state.
      */
-    var shouldShowOnBoarding by remember { mutableStateOf(true) }
+    // var shouldShowOnBoarding by remember { mutableStateOf(true) }
+
+    /**
+     * Persisting state
+     * - The remember function works only as long as the composable is kept in the Composition.
+     * - When you rotate, the whole activity is restarted so all state is lost.
+     * - This also happens with any configuration change and on process death.
+     * - rememberSaveable will save each state surviving configuration changes (such as rotations) and process death.
+     */
+    var shouldShowOnBoarding by rememberSaveable { mutableStateOf(true) }
     
     Surface(modifier) {
         when {
