@@ -4,13 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,7 +24,63 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun MyApp(
+private fun MyApp(modifier: Modifier = Modifier) {
+    /**
+     * This state should be hoisted
+     * Using a by keyword instead of the =.
+     * - This is a property delegate that saves you from typing .value every time.
+     * logic to show the different screens in MyApp, and hoist the state.
+     */
+    var shouldShowOnBoarding by remember { mutableStateOf(true) }
+    
+    Surface(modifier) {
+        when {
+            shouldShowOnBoarding -> {
+                OnBoardingScreen(onContinueClicked = { shouldShowOnBoarding = false} )
+            }
+            else -> {
+                Greetings()
+            }
+        }
+    }
+    Greetings()
+}
+
+@Composable
+fun OnBoardingScreen(
+    onContinueClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    /**
+     * When the button is clicked, shouldShowOnBoarding is set to false
+     * We want to show this on launch and then hide it when the user presses "Continue".
+     */
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("Welcome to the List App!")
+        Button(
+            modifier = Modifier.padding(vertical = 24.dp),
+            onClick = onContinueClicked // sets the sate to true
+        ) {
+            Text("Continue")
+        }
+    }
+}
+
+// Added a fixed height to verify that the content is aligned correctly.
+@Preview(showBackground = true, widthDp = 320, heightDp = 320)
+@Composable
+fun OnBoardingPreview() {
+    ListAppTheme {
+        OnBoardingScreen(onContinueClicked = {}) // empty lambda expression means "Do nothing" on click
+    }
+}
+
+@Composable
+fun Greetings(
     modifier: Modifier = Modifier,
     names: List<String> = listOf("World", "Compose", "Eng. Jones")
 ) {
@@ -77,6 +129,14 @@ fun Greeting(name: String) {
 @Composable
 fun DefaultPreview() {
     ListAppTheme {
-        MyApp()
+        Greetings()
+    }
+}
+
+@Preview
+@Composable
+fun MyAppPreview() {
+    ListAppTheme {
+        MyApp(Modifier.fillMaxSize())
     }
 }
