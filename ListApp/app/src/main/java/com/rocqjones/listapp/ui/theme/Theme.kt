@@ -21,7 +21,7 @@ private val DarkColorScheme = darkColorScheme(
     secondary = PurpleGrey80,
     tertiary = Pink80 */
 
-    surface = Blue,
+    surface = Color.Black,
     onSurface = Navy,
     primary = Navy,
     onPrimary = Chartreuse
@@ -32,9 +32,9 @@ private val LightColorScheme = lightColorScheme(
     secondary = PurpleGrey40,
     tertiary = Pink40 */
 
-    surface = Blue,
-    onSurface = Color.White,
-    primary = LightBlue,
+    surface = Color.White,
+    onSurface = LightBlue,
+    primary = Blue,
     onPrimary = Navy
 
     /* Other default colors to override
