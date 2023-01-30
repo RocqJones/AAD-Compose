@@ -22,3 +22,8 @@ fun SomeFunctionName() {
 
 ```
 - `remember` is used to guard against recomposition, so the state is not reset.
+
+### State hoisting
+In Composable functions, state that is read or modified by multiple functions should live in a common ancestor—this process is called state **hoisting**. To hoist means to *lift or elevate*.
+
+Making state hoistable avoids duplicating state and introducing bugs, helps reuse composables, and makes composables substantially easier to test. Contrarily, state that doesn't need to be controlled by a composable's parent should not be hoisted. The **source of truth** belongs to whoever creates and controls that state.
