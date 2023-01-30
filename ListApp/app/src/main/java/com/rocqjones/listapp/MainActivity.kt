@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -78,7 +79,11 @@ fun OnBoardingScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Welcome to the List App!")
+        Text(
+            "Welcome to the List App!",
+            style = MaterialTheme.typography.headlineMedium,
+            color =MaterialTheme.colorScheme.secondary
+        )
         Button(
             modifier = Modifier.padding(vertical = 24.dp),
             onClick = onContinueClicked // sets the sate to true
