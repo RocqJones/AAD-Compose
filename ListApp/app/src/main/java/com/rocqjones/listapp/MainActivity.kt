@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -81,16 +83,25 @@ fun OnBoardingPreview() {
 @Composable
 fun Greetings(
     modifier: Modifier = Modifier,
-    names: List<String> = listOf("World", "Compose", "Eng. Jones")
+    names: List<String> = List(1000) { "$it" }
 ) {
     /**
      * reusable fun to avoiding code duplication
+     * Creating a performant lazy list
      */
+    /*
     Column(
         modifier = modifier.padding(vertical = 4.dp)
     ) {
         for (name in names) {
             Greeting(name = name)
+        }
+    }*/
+
+    // for loop threads too long, alternative is LazyColumn and items
+    LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
+        items(items = names) { n ->
+            Greeting(name = n)
         }
     }
 }
@@ -114,7 +125,7 @@ fun Greeting(name: String) {
                     .padding(bottom = extraPadding)
             ) {
                 Text(text = "Hello")
-                Text(text = "$name!")
+                Text(text = "$name.")
             }
 
             ElevatedButton(onClick = { expanded.value = !expanded.value }) {
