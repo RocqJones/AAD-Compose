@@ -21,3 +21,4 @@ fun SomeFunctionName() {
 }
 
 ```
+- `remember` is used to guard against recomposition, so the state is not reset.
