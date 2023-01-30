@@ -29,3 +29,7 @@ In Composable functions, state that is read or modified by multiple functions sh
 Making state hoistable avoids duplicating state and introducing bugs, helps reuse composables, and makes composables substantially easier to test. Contrarily, state that doesn't need to be controlled by a composable's parent should not be hoisted. The **source of truth** belongs to whoever creates and controls that state.
 
 In Compose **you don't hide UI elements**. Instead, you simply don't add them to the composition, so they're not added to the UI tree that Compose generates. 
+
+### Compose Lazy Column and LazyRow
+**LazyColumn** and **LazyRow** are equivalent to **RecyclerView** in Android **Views**.
+* **LazyColumn** doesn't recycle its children like **RecyclerView***. It emits new Composables as you scroll through it and is still performant, as emitting Composables is relatively cheap compared to instantiating Android Views.
